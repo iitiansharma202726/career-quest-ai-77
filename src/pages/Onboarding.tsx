@@ -12,6 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link, useNavigate } from "react-router-dom";
+import { saveUserProfile } from "@/lib/userProfile";
 
 const degrees = [
   "B.Tech / B.E.",
@@ -69,8 +70,13 @@ const Onboarding = () => {
   const totalSteps = 5;
 
   const handleNext = () => {
-    if (step < totalSteps) setStep(step + 1);
-    else navigate("/dashboard");
+    if (step < totalSteps) {
+      setStep(step + 1);
+    } else {
+      // Save profile to localStorage before navigating
+      saveUserProfile(formData);
+      navigate("/dashboard");
+    }
   };
 
   const handleBack = () => {

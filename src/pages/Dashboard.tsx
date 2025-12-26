@@ -1,6 +1,6 @@
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { 
-  GraduationCap, 
   Target, 
   CheckCircle2, 
   Clock, 
@@ -14,12 +14,23 @@ import {
 import { Button } from "@/components/ui/button";
 import { Navbar } from "@/components/layout/Navbar";
 import { Link } from "react-router-dom";
+import { getUserProfile, UserProfile } from "@/lib/userProfile";
 
 const DashboardPage = () => {
+  const [profile, setProfile] = useState<UserProfile | null>(null);
+  
+  useEffect(() => {
+    const storedProfile = getUserProfile();
+    setProfile(storedProfile);
+  }, []);
+
   const readinessScore = 67;
   const weekNumber = 4;
   const completedTasks = 18;
   const totalTasks = 28;
+
+  const userName = profile?.name || "Student";
+  const careerGoal = profile?.careerGoal || "Data Analyst";
 
   const todayTasks = [
     { id: 1, title: "Complete SQL Basics Module", type: "Learning", duration: "45 min", completed: false },
@@ -52,10 +63,10 @@ const DashboardPage = () => {
             className="mb-8"
           >
             <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
-              Welcome back, <span className="text-gradient">Arjun</span> 👋
+              Welcome back, <span className="text-gradient">{userName}</span> 👋
             </h1>
             <p className="text-muted-foreground">
-              You're on Week {weekNumber} of your journey to becoming a Data Analyst.
+              You're on Week {weekNumber} of your journey to becoming a {careerGoal}.
             </p>
           </motion.div>
 
